@@ -1,0 +1,54 @@
+# This is a basic workflow to help you get started with Actions
+
+name: HBOStaticWebsiteCICD
+
+# Workflow will be triggered only if there is any change in website folder
+on:
+  push:
+    paths:
+      - "website/**"
+
+# Setting Default working directory to infrastructure template directory
+defaults:
+  run:
+    working-directory: ./web-infra
+
+jobs:        
+  deployPilot:
+    runs-on: ubuntu-latest  
+    steps:
+      # Step 1
+        - uses: actions/checkout@v2
+      # Step 2
+        - name: Set up node 14 version
+          uses: actions/setup-node@v2
+          with:
+             node-version: 14.x
+      # Step 4
+        - name: Install dependencies
+          run: npm install
+      # Step 5
+        - name: Install dependencies
+          run: npm run build
+      # Step 6
+        - name: Install AWS cli
+          run: pip3 install --upgrade awscli
+      # Step 7
+        - name: Install AWS cdk
+          run: npm install -g aws-cdk
+      # Step 8
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{secrets.SANDBOX_AWS_ACCESS_KEY_ID}}
+            aws-secret-access-key: ${{secrets.SANDBOX_AWS_SECRET_ACCESS_KEY}}
+            aws-region: us-east-1
+      # Step 9
+        - name: BootStrap cdk
+          run: cdk bootstrap -c env=nonprod aws://156900288200/us-east-1
+      # Step 10
+        - name: Synthesizing cdk
+          run: cdk synth WebInfraStack -c env=nonprod aws://156900288200/us-east-1
+      # Step 10  
+        - name: Deploy
+          run: cdk deploy WebInfraStack -c env=nonprod --require-approval never
