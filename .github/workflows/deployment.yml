@@ -15,7 +15,12 @@ defaults:
 
 jobs:        
   deployPilot:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
+    environment:
+      name: HBOStaticwebpilot
+    env:
+      AWS_ACCOUNT_PILOT: ${{secrets.AWS_ACCOUNT_PILOT}}
+      AWS_REGION_PILOT: ${{secrets.AWS_REGION_PILOT}}
     steps:
       # Step 1
         - uses: actions/checkout@v2
@@ -40,15 +45,15 @@ jobs:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v1
           with:
-            aws-access-key-id: ${{secrets.SANDBOX_AWS_ACCESS_KEY_ID}}
-            aws-secret-access-key: ${{secrets.SANDBOX_AWS_SECRET_ACCESS_KEY}}
+            aws-access-key-id: ${{secrets.PILOT_AWS_ACCESS_KEY_ID}}
+            aws-secret-access-key: ${{secrets.PILOT_AWS_SECRET_ACCESS_KEY}}
             aws-region: us-east-1
       # Step 9
         - name: BootStrap cdk
-          run: cdk bootstrap -c env=nonprod aws://156900288200/us-east-1
+          run: cdk bootstrap 
       # Step 10
         - name: Synthesizing cdk
-          run: cdk synth WebInfraStack -c env=nonprod aws://156900288200/us-east-1
+          run: cdk synth WebInfraStack
       # Step 10  
         - name: Deploy
-          run: cdk deploy WebInfraStack -c env=nonprod --require-approval never
+          run: cdk deploy WebInfraStack --require-approval never
