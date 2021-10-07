@@ -16,7 +16,7 @@ export class WebInfraStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-    const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: 'hbomaxtest.com' });
+    //const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: 'hbomaxtest.com' });
     const siteDomain = "joinapp.hbomaxtest.com";
     const cloudfrontOAI = new cloudfront.OriginAccessIdentity(this, 'cloudfront-OAI', {
       comment: `OAI for hbo hosted static website`
@@ -66,38 +66,38 @@ export class WebInfraStack extends cdk.Stack {
     }); // wafv2.CfnWebACL
 
     // TLS certificate
-    const certificateArn = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
-      domainName: siteDomain,
-      hostedZone: zone,
-      region: 'us-east-1', // Cloudfront only checks this region for certificates.
-    }).certificateArn;
+    // const certificateArn = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
+    //   domainName: siteDomain,
+    //   hostedZone: zone,
+    //   region: 'us-east-1', // Cloudfront only checks this region for certificates.
+    // }).certificateArn;
     
-    new cdk.CfnOutput(this, 'Certificate', { value: certificateArn });
+    // new cdk.CfnOutput(this, 'Certificate', { value: certificateArn });
 
     // Specifies you want viewers to use HTTPS & TLS v1.1 to request your objects
-    const viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate({
-      certificateArn: certificateArn,
-      env: {
-        region: cdk.Aws.REGION,
-        account: cdk.Aws.ACCOUNT_ID
-      },
-      node: this.node,
-      stack: cdk.Stack.of(this),
-      metricDaysToExpiry: () =>
-        new cloudwatch.Metric({
-          namespace: "TLS Viewer Certificate Validity",
-          metricName: "TLS Viewer Certificate Expired",
-        }),
-    },
-      {
-        sslMethod: cloudfront.SSLMethod.SNI,
-        securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_1_2016,
-        aliases: [siteDomain]
-      })
+    // const viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate({
+    //   certificateArn: certificateArn,
+    //   env: {
+    //     region: process.env.AWS_REGION_PILOT,
+    //     account: process.env.AWS_ACCOUNT_PILOT
+    //   },
+    //   node: this.node,
+    //   stack: cdk.Stack.of(this),
+    //   metricDaysToExpiry: () =>
+    //     new cloudwatch.Metric({
+    //       namespace: "TLS Viewer Certificate Validity",
+    //       metricName: "TLS Viewer Certificate Expired",
+    //     }),
+    // },
+    //   {
+    //     sslMethod: cloudfront.SSLMethod.SNI,
+    //     securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_1_2016,
+    //     aliases: [siteDomain]
+    //   })
 
       // CloudFront distribution
     const distribution = new cloudfront.CloudFrontWebDistribution(this, 'SiteDistribution', {
-      viewerCertificate,
+      //viewerCertificate,
       originConfigs: [
         {
           s3OriginSource: {
@@ -114,12 +114,12 @@ export class WebInfraStack extends cdk.Stack {
     });
     new cdk.CfnOutput(this, 'DistributionId', { value: distribution.distributionId });
 
-    // Route53 alias record for the CloudFront distribution
-    new route53.ARecord(this, 'SiteAliasRecord', {
-      recordName: siteDomain,
-      target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
-      zone
-    });
+    // // Route53 alias record for the CloudFront distribution
+    // new route53.ARecord(this, 'SiteAliasRecord', {
+    //   recordName: siteDomain,
+    //   target: route53.RecordTarget.fromAlias(new targets.CloudFrontTarget(distribution)),
+    //   zone
+    // });
 
    new s3Deployment.BucketDeployment(this, "deployStaticWebsite", {
     sources: [s3Deployment.Source.asset("../website")],
