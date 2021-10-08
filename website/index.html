@@ -1,10 +1,36 @@
 <!DOCTYPE html>
  <html>
   <head>
+   <script type = "text/javascript">
+    $( function(){
+        $("#submit").click(function(){
+        var param = $("#parameter").val();
+        var url = "https://jsonplaceholder.typicode.com/posts/" + parameter;
+            console.log(param);
+        $.ajax({
+
+            url: url,
+            dataType: 'jsonp',
+            success: function(results){
+                $('#results').append(results);
+
+            }
+        });
+
+        });
+
+    });
+
+    </script>   
    <title>Hello world</title>
   </head>
  <body>
+  
   <h1>My S3 hosted website</h1>
-  <h2>Testing deployments</h2>
+  <label for="parameter">Enter Parameter to make an API call:</label><br>
+  <input type="text" id="parameter" name="parameter" value="1"><br>
+  <input type="submit" id="submit" value="Submit">
+  <div id="results"></div> 
+  
  </body>
 </html>
