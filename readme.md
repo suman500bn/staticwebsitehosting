@@ -49,10 +49,15 @@ So i have created basic pipeline to deploy web infrastructure to AWS. I used Git
 
 ## Implemented Tasks:
    CDK Template <br>
+   Support a custom domain name<br>
    Support SSL <br>
    Support WAF (rules need to be configured) <br>
    SPA is deployed by pushing static index.html and other web resources <br>
    Enabled approval for pull request so that only authorized user can appovr changes to aws.
+   
+## Assumptions
+   Custom WAF rules provision is created.What rules should go in there whether IP SET or managed rules group need to be decided by the team using this.<br>
+   DNS record is already created in Route 53.
    
 ## Additional Tasks:
    Though CORS is enabled in bucket policy. Should make changes in cloudfront to allow external api calls.<br>
