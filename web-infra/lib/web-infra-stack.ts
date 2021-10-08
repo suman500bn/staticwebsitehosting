@@ -29,7 +29,19 @@ export class WebInfraStack extends cdk.Stack {
       publicReadAccess: false,
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       removalPolicy: cdk.RemovalPolicy.DESTROY,        
-      websiteIndexDocument: "index.html"
+      websiteIndexDocument: "index.html",
+      cors: [
+        {
+          allowedMethods: [
+            s3.HttpMethods.GET,
+            s3.HttpMethods.POST,
+            s3.HttpMethods.PUT,
+          ],
+          allowedOrigins: ['https://jsonplaceholder.typicode.com'],
+          allowedHeaders: ['*'],
+        }
+        
+      ]
    });
 
     myBucket.addToResourcePolicy(new iam.PolicyStatement({
@@ -111,6 +123,7 @@ export class WebInfraStack extends cdk.Stack {
           }],
         }
       ],
+      
       webACLId: wafAclCloudFront.attrArn 
     });
     new cdk.CfnOutput(this, 'DistributionId', { value: distribution.distributionId });
