@@ -12,27 +12,28 @@ Date: 10/09/2021<br>
 
 Design Considerations:
 
-From the requirement, website hosted on s3 should support HTTPS, SSL, WAF. From my research AWS WAF can be configured with API Gateway, Load Balancer and CloudFront. My design choice is to go with Cloudfront distribution. Because it supports https endpoint with SSL and website can be served globally.
-To serve a static website hosted on Amazon S3, you can deploy a CloudFront distribution using one of these configurations:
-•	Using a REST API endpoint as the origin, with access restricted by an origin access identity (OAI)
-•	Using a website endpoint as the origin, with anonymous (public) access allowed
-•	Using a website endpoint as the origin, with access restricted by a Referer header
+From the requirement, website hosted on s3 should support HTTPS, SSL, WAF. From my research AWS WAF can be configured with API Gateway, Load Balancer and CloudFront. My design choice is to go with Cloudfront distribution. Because it supports https endpoint with SSL and website can be served globally.<br>
 
-Going with public access to s3 is a security risk. So in this project, I have followed access restricted by Cloudfront OAI.
+To serve a static website hosted on Amazon S3, you can deploy a CloudFront distribution using one of these configurations:<br>
+•	Using a REST API endpoint as the origin, with access restricted by an origin access identity (OAI)<br>
+•	Using a website endpoint as the origin, with anonymous (public) access allowed<br>
+•	Using a website endpoint as the origin, with access restricted by a Referer header<br>
 
-Steps I have followed to accomplish the task:
+Going with public access to s3 is a security risk. So in this project, I have followed access restricted by Cloudfront OAI.<br>
 
-Using a REST API endpoint as the origin, with access restricted by an OAI
-1.	I have written template to provision Amazon S3 bucket and upload website files. For this I am using REST API endpoint configuration of the bucket instead of the website endpoint from the enable static website hosting feature. Advantages of REST API endpoint is it supports both public and private content whereas website endpoint supports only public content. 
-2.	Create a CloudFront web distribution. In addition to the distribution settings that you need for your use case, enter the following:
-    Bucket Origin domain
-    Enabling Cloudfront OAI S3 bucket access by updating bucket policy
-    Adding CORS policy for allowing external api calls.
-3. Create AWS WAF rules.
-4.	It's a best practice to use SSL (HTTPS) for the website. To use a custom domain with HTTPS, we need Custom SSL certificate. If we are not using a custom domain, we can still use HTTPS with the cloudfront.net domain name for your distribution.
-Important: If Alternate domain names (CNAMEs) is entered for cloudfront distribution, then the CNAMEs must match the SSL certificate that we select. 
-5.	Create CloudFront Distribution with s3 as origin,attaching custom domain name and applying WAF rules.
-6.	Update the DNS records for our domain to point website's CNAME CloudFront distribution's domain name. You can find your distribution's domain name in the CloudFront console in a format that's similar to d1234abcd.cloudfront.net.
+Steps I have followed to accomplish the task:<br>
+
+Using a REST API endpoint as the origin, with access restricted by an OAI<br>
+
+1.	I have written template to provision Amazon S3 bucket and upload website files. For this I am using REST API endpoint configuration of the bucket instead of the website endpoint from the enable static website hosting feature. Advantages of REST API endpoint is it supports both public and private content whereas website endpoint supports only public content. <br>
+2.	Create a CloudFront web distribution. In addition to the distribution settings that you need for your use case, enter the following:<br>
+    Bucket Origin domain<br>
+    Enabling Cloudfront OAI S3 bucket access by updating bucket policy<br>
+    Adding CORS policy for allowing external api calls.<br>
+3. Create AWS WAF rules.<br>
+4.	It's a best practice to use SSL (HTTPS) for the website. To use a custom domain with HTTPS, we need Custom SSL certificate. If we are not using a custom domain, we can still use HTTPS with the cloudfront.net domain name for your distribution.<br>
+5.	Create CloudFront Distribution with s3 as origin,attaching custom domain name and applying WAF rules.<br>
+6.	Update the DNS records for our domain to point website's CNAME CloudFront distribution's domain name. You can find your distribution's domain name in the CloudFront console in a format that's similar to d1234abcd.cloudfront.net.<br>
 
 ## [Checkout Details about CDK Template](https://github.com/suman500bn/staticwebsitehosting/blob/master/web-infra/README.md)
 
