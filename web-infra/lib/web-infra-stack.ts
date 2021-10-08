@@ -110,7 +110,8 @@ export class WebInfraStack extends cdk.Stack {
             allowedMethods: cloudfront.CloudFrontAllowedMethods.GET_HEAD_OPTIONS,
           }],
         }
-      ]
+      ],
+      webACLId: wafAclCloudFront.attrArn 
     });
     new cdk.CfnOutput(this, 'DistributionId', { value: distribution.distributionId });
 
