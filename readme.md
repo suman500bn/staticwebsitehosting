@@ -48,14 +48,18 @@ So i have created basic pipeline to deploy web infrastructure to AWS. I used Git
     cdk deploy WebInfraStack --require-approval never: to deploy our stack into AWS<br>
 
 ## Implemented Tasks:
-   CDK Template
-   Support SSL
-   Support WAF (rules need to be configured)
-   SPA is deployed by pushing static index.html and other web resources
+   CDK Template <br>
+   Support SSL <br>
+   Support WAF (rules need to be configured) <br>
+   SPA is deployed by pushing static index.html and other web resources <br>
+   Enabled approval for pull request so that only authorized user can appovr changes to aws.
+   
+## Additional Tasks:
+   Though CORS is enabled in bucket policy. Should make changes in cloudfront to allow external api calls.<br>
+   Certain Parameters like domainname, subdomain, whitelisted IP are hard coded. Need to create config file or take parameters from environmental variables for resusability.<br>
    
 
-
-References:
+## References:
 
 https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html#WebsiteRestEndpointDiff <br>
 https://docs.aws.amazon.com/cdk/api/latest/docs/aws-cloudfront-readme.html <br>
