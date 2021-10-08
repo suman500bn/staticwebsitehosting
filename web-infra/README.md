@@ -56,10 +56,10 @@ Inside package.json, you can find imported libraries in dependencies section. In
 For this project, i started with lookingup for domainname "hbomaxtest.com" record in route 53.
 
 ## Cloudfront OAI and bucket
-Now i need to create origin access identity (OAI) so that s3 will allow only cloudfront to access the bucket.Created OAI.Created bucket with bucketname "joinapp.hbomaxtest.com" with following configuration. Publicreadaccess as false, websiteindexdcument as index.html and cors enabled for external requests.Add OAI to bucket resource policy allowing cloudfront to access s3 bucket.
+Now i need to create origin access identity (OAI) so that s3 will allow cloudfront to access the bucket.Created OAI.Created bucket with bucketname "joinapp.hbomaxtest.com" with following configuration. Publicreadaccess as false, websiteindexdcument as index.html and cors enabled for external requests.Add OAI to bucket resource policy allowing cloudfront to access s3 bucket.
 
 ## Firewall (AWS WAF)
-Created firewall using wafv2 and scrope to "CLOUDFRONT".For this setup i haven't used any rules to allow or block cerain IP. But there is commented option rules to filter out IP.
+Created firewall using wafv2 and scrope to "CLOUDFRONT".For this setup i haven't used any rules to allow or block cerain IP. But there is commented option rules to filter out IP. So there are different options to filter IP's. We can use IP Sets to allow or deny specific ip's. With managed rule group, we assign priority, also limit api calls from certain ips.   
 
 ## TLS Certificate
 Checked AWS cerificate manager for the domain and domain hosted zone to retrive certificate.
