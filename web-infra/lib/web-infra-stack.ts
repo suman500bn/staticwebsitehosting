@@ -37,7 +37,7 @@ export class WebInfraStack extends cdk.Stack {
             s3.HttpMethods.POST,
             s3.HttpMethods.PUT,
           ],
-          allowedOrigins: ['https://jsonplaceholder.typicode.com'],
+          allowedOrigins: ['*'],
           allowedHeaders: ['*'],
         }
         
@@ -123,7 +123,7 @@ export class WebInfraStack extends cdk.Stack {
           }],
         }
       ],
-      
+
       webACLId: wafAclCloudFront.attrArn 
     });
     new cdk.CfnOutput(this, 'DistributionId', { value: distribution.distributionId });
