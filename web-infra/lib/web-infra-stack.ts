@@ -16,14 +16,19 @@ export class WebInfraStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-    //const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: 'hbomaxtest.com' });
+    const zone = route53.HostedZone.fromLookup(this, 'Zone', { domainName: 'hbomaxtest.com' });
+
     const siteDomain = "joinapp.hbomaxtest.com";
+
+    // Creating cloudfront origin access identity
     const cloudfrontOAI = new cloudfront.OriginAccessIdentity(this, 'cloudfront-OAI', {
       comment: `OAI for hbo hosted static website`
     });
 
+    // Output to cloud fromation template
     new cdk.CfnOutput(this, 'Site', { value: 'https://' + siteDomain });
     
+    // Bucket creation
     const myBucket = new s3.Bucket(this, "hbomax-website-bucket", {
       bucketName: siteDomain,
       publicReadAccess: false,
@@ -44,6 +49,7 @@ export class WebInfraStack extends cdk.Stack {
       ]
    });
 
+    // Adding OAI to bucket
     myBucket.addToResourcePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject'],
       resources: [myBucket.arnForObjects('*')],
@@ -57,6 +63,7 @@ export class WebInfraStack extends cdk.Stack {
      * aws wafv2 list-available-managed-rule-groups --scope CLOUDFRONT
      */
     
+
     const wafAclCloudFront = new wafv2.CfnWebACL(this, "WafCloudFront", {
       defaultAction: { allow: {} },
       /**
@@ -78,34 +85,34 @@ export class WebInfraStack extends cdk.Stack {
     }); // wafv2.CfnWebACL
 
     // TLS certificate
-    // const certificateArn = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
-    //   domainName: siteDomain,
-    //   hostedZone: zone,
-    //   region: 'us-east-1', // Cloudfront only checks this region for certificates.
-    // }).certificateArn;
+    const certificateArn = new acm.DnsValidatedCertificate(this, 'SiteCertificate', {
+      domainName: siteDomain,
+      hostedZone: zone,
+      region: 'us-east-1', // Cloudfront only checks this region for certificates.
+    }).certificateArn;
     
-    // new cdk.CfnOutput(this, 'Certificate', { value: certificateArn });
+    new cdk.CfnOutput(this, 'Certificate', { value: certificateArn });
 
     // Specifies you want viewers to use HTTPS & TLS v1.1 to request your objects
-    // const viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate({
-    //   certificateArn: certificateArn,
-    //   env: {
-    //     region: process.env.AWS_REGION_PILOT,
-    //     account: process.env.AWS_ACCOUNT_PILOT
-    //   },
-    //   node: this.node,
-    //   stack: cdk.Stack.of(this),
-    //   metricDaysToExpiry: () =>
-    //     new cloudwatch.Metric({
-    //       namespace: "TLS Viewer Certificate Validity",
-    //       metricName: "TLS Viewer Certificate Expired",
-    //     }),
-    // },
-    //   {
-    //     sslMethod: cloudfront.SSLMethod.SNI,
-    //     securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_1_2016,
-    //     aliases: [siteDomain]
-    //   })
+    const viewerCertificate = cloudfront.ViewerCertificate.fromAcmCertificate({
+      certificateArn: certificateArn,
+      env: {
+        region: cdk.Aws.REGION,
+        account: cdk.Aws.ACCOUNT_ID
+      },
+      node: this.node,
+      stack: cdk.Stack.of(this),
+      metricDaysToExpiry: () =>
+        new cloudwatch.Metric({
+          namespace: "TLS Viewer Certificate Validity",
+          metricName: "TLS Viewer Certificate Expired",
+        }),
+    },
+      {
+        sslMethod: cloudfront.SSLMethod.SNI,
+        securityPolicy: cloudfront.SecurityPolicyProtocol.TLS_V1_1_2016,
+        aliases: [siteDomain]
+      })
 
       // CloudFront distribution
     const distribution = new cloudfront.CloudFrontWebDistribution(this, 'SiteDistribution', {
