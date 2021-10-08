@@ -124,7 +124,9 @@ export class WebInfraStack extends cdk.Stack {
 
    new s3Deployment.BucketDeployment(this, "deployStaticWebsite", {
     sources: [s3Deployment.Source.asset("../website")],
-    destinationBucket: myBucket
+    destinationBucket: myBucket,
+    distribution,
+    distributionPaths: ['/*'], 
   });
 
   
