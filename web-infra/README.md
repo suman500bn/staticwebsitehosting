@@ -13,15 +13,21 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 ## Stack Names:
  
  WebInfraStack : name of the cloudformation stack.<br>
+ 
  domainName: 'hbomaxtest.com'<br>
+ 
  subDomain: 'joinapp.hbomaxtest.com'<br>
+ 
  bucketName: 'joinapp.hbomaxtest.com'<br>
+ 
  WAF: WafCloudfront<br>
  
+ CloudFront Distribution: "SiteDistribution"<br>
  
+ s3deployment: "deployStaticWebsite"<br>
 
 
-I have quick started project with boiler plate code
+I quick started project with boiler plate code
 
 ## Prerequisites:
 
@@ -29,7 +35,7 @@ AWS CLI installed pip3 install --upgrade awscli
 AWS CDK installed npm install -g aws-cdk
 Node.js installed [Node.js](https://nodejs.org/en/download/)
 Typescript installed npm -g install typescript
-IAM user with required permissions for 
+IAM user with required permissions for using appropriate resources on cloud
 
 To start with boilerplate code
 cdk init app --language typescript
