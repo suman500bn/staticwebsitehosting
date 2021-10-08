@@ -55,7 +55,7 @@ So i have created basic pipeline to deploy web infrastructure to AWS. I used Git
    SPA is deployed by pushing static index.html and other web resources <br>
    Enabled approval for pull request so that only authorized user can appovr changes to aws.
    
-## [Workflow Runs](https://github.com/suman500bn/staticwebsitehosting/actions/workflows/deployment.yml)
+## [Checkout Workflow Runs](https://github.com/suman500bn/staticwebsitehosting/actions/workflows/deployment.yml)
 
 ## Assumptions
    Custom WAF rules provision is created.What rules should go in there whether IP SET or managed rules group need to be decided by the team using this.<br>
