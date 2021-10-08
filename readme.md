@@ -34,7 +34,17 @@ Important: If Alternate domain names (CNAMEs) is entered for cloudfront distribu
 5.	Create CloudFront Distribution with s3 as origin,attaching custom domain name and applying WAF rules.
 6.	Update the DNS records for our domain to point website's CNAME CloudFront distribution's domain name. You can find your distribution's domain name in the CloudFront console in a format that's similar to d1234abcd.cloudfront.net.
 
-[Checkout Details about CDK Template](https://github.com/suman500bn/staticwebsitehosting/blob/master/web-infra/README.md)
+## [Checkout Details about CDK Template](https://github.com/suman500bn/staticwebsitehosting/blob/master/web-infra/README.md)
+
+## CI/CD Pipeline details:
+
+So i have created basic pipeline to deploy web infrastructure to AWS. I used Git Actions for CI/CD pipeline. I used pilot environment and setup environmental variables under environment section in settings tab of github. Please refer .env examples for environmental variables i am using in this project.Pipeline is setup in such a way that whenever change is made to website folder pipeline is triggered
+
+## Commands in git actions:
+
+    cdk bootstrap: to configure aws environment<br>
+    cdk synth WebInfraStack: to synthesize and view the cloud formation template for stack we requested<br>
+    cdk deploy WebInfraStack --require-approval never: to deploy our stack into AWS<br>
 
 
 
