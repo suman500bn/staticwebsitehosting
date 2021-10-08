@@ -116,7 +116,7 @@ export class WebInfraStack extends cdk.Stack {
 
       // CloudFront distribution
     const distribution = new cloudfront.CloudFrontWebDistribution(this, 'SiteDistribution', {
-      //viewerCertificate,
+      viewerCertificate,
       originConfigs: [
         {
           s3OriginSource: {
