@@ -27,30 +27,29 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
  s3deployment: "deployStaticWebsite"<br>
 
 
-I quick started project with boiler plate code
-
 ## Prerequisites:
 
-AWS CLI installed pip3 install --upgrade awscli
-AWS CDK installed npm install -g aws-cdk
-Node.js installed [Node.js](https://nodejs.org/en/download/)
-Typescript installed npm -g install typescript
-IAM user with required permissions for using appropriate resources on cloud
+ AWS CLI installed pip3 install --upgrade awscli<br>
+ AWS CDK installed npm install -g aws-cdk<br>
+ Node.js installed [Node.js](https://nodejs.org/en/download/)<br>
+ Typescript installed npm -g install typescript<br>
+ IAM user with required permissions for using appropriate resources on cloud<br>
 
-To start with boilerplate code
-cdk init app --language typescript
+ To start with boilerplate code<br>
+
+ cdk init app --language typescript
 
 ## Project Directory:
 
-bin
-lib
-package.json
+ bin<br>
+ lib<br>
+ package.json<br>
 
-Inside bin folder, we initialize stack and specify environment to which stack is deployed.
+Inside bin folder, we initialize stack and specify environment to which stack is deployed.<br>
 
-Inside lib folder, we define our cloud stack.For static website, i require S3,Cloudfront,Route 53, Certificate Manager, WAF. So i imported those libraries in my code.
+Inside lib folder, we define our cloud stack.For static website, i require S3,Cloudfront,Route 53, Certificate Manager, WAF. So i imported those libraries in my code.<br>
 
-Inside package.json, you can find imported libraries in dependencies section. Inside scripts section, we can automate some commands and some commands are given by default.
+Inside package.json, you can find imported libraries in dependencies section. Inside scripts section, we can automate some commands and some commands are given by default.<br>
 
 ## Domain
 
