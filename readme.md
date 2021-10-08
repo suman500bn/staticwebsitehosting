@@ -35,6 +35,11 @@ Using a REST API endpoint as the origin, with access restricted by an OAI<br>
 5.	Create CloudFront Distribution with s3 as origin,attaching custom domain name and applying WAF rules.<br>
 6.	Update the DNS records for our domain to point website's CNAME CloudFront distribution's domain name. You can find your distribution's domain name in the CloudFront console in a format that's similar to d1234abcd.cloudfront.net.<br>
 
+## Folder Structure
+    web-infra contains infrastructure template <br>
+    website contains website details <br>
+    .github/workflows contains CI/CD pipeline file <br>
+
 ## [Checkout Details about CDK Template](https://github.com/suman500bn/staticwebsitehosting/blob/master/web-infra/README.md)
 
 ## CI/CD Pipeline details:
