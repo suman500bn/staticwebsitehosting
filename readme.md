@@ -19,14 +19,14 @@ To serve a static website hosted on Amazon S3, you can deploy a CloudFront distr
 •	Using a website endpoint as the origin, with anonymous (public) access allowed<br>
 •	Using a website endpoint as the origin, with access restricted by a Referer header<br>
 
-Going with public access to s3 is a security risk. So in this project, I have followed access restricted by Cloudfront OAI.<br>
+Going with public access to s3 is a security risk. So in this project, I have followed access to Cloudfront OAI.<br>
 
 Steps I have followed to accomplish the task:<br>
 
 Using a REST API endpoint as the origin, with access restricted by an OAI<br>
 
 1.	I have written template to provision Amazon S3 bucket and upload website files. For this I am using REST API endpoint configuration of the bucket instead of the website endpoint from the enable static website hosting feature. Advantages of REST API endpoint is it supports both public and private content whereas website endpoint supports only public content. <br>
-2.	Create a CloudFront web distribution. In addition to the distribution settings that you need for your use case, enter the following:<br>
+2.	Created a CloudFront web distribution. In addition to the distribution settings, enter the following:<br>
     Bucket Origin domain<br>
     Enabling Cloudfront OAI S3 bucket access by updating bucket policy<br>
     Adding CORS policy for allowing external api calls.<br>
@@ -46,6 +46,19 @@ So i have created basic pipeline to deploy web infrastructure to AWS. I used Git
     cdk bootstrap: to configure aws environment<br>
     cdk synth WebInfraStack: to synthesize and view the cloud formation template for stack we requested<br>
     cdk deploy WebInfraStack --require-approval never: to deploy our stack into AWS<br>
+
+## Implemented Tasks:
+   CDK Template
+   Support SSL
+   Support WAF (rules need to be configured)
+   SPA is deployed by pushing static index.html and other web resources
+   
+
+
+References:
+
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html#WebsiteRestEndpointDiff <br>
+https://docs.aws.amazon.com/cdk/api/latest/docs/aws-cloudfront-readme.html <br>
 
 
 
