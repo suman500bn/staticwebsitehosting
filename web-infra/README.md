@@ -12,11 +12,11 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
 ## Stack Names:
  
- WebInfraStack : name of the cloudformation stack.
- domainName: 'hbomaxtest.com'
- subDomain: 'joinapp.hbomaxtest.com'
- bucketName: 'joinapp.hbomaxtest.com'
- WAF: WafCloudfront
+ WebInfraStack : name of the cloudformation stack.<br>
+ domainName: 'hbomaxtest.com'<br>
+ subDomain: 'joinapp.hbomaxtest.com'<br>
+ bucketName: 'joinapp.hbomaxtest.com'<br>
+ WAF: WafCloudfront<br>
  
  
 
