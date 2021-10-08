@@ -58,7 +58,7 @@ So i have created basic pipeline to deploy web infrastructure to AWS. I used Git
    Support SSL <br>
    Support WAF (rules need to be configured) <br>
    SPA is deployed by pushing static index.html and other web resources <br>
-   Enabled approval for pull request so that only authorized user can appovr changes to aws.
+   Enabled approval for pull request so that only authorized user can approve changes to aws.
    
 ## [Checkout Workflow Runs](https://github.com/suman500bn/staticwebsitehosting/actions/workflows/deployment.yml)
 
